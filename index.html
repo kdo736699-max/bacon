@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>培根 · 赵培涵</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family:'Noto Sans SC',sans-serif;
+  background:#f5f3ee; color:#111; overflow-x:hidden;
+}
+
+/* scroll progress */
+#progress {
+  position:fixed; top:0; left:0; height:4px; width:0%;
+  background:#FF6B6B; z-index:300; transition:width 0.1s;
+}
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  height:60px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 2.5rem; background:#111; border-bottom:3px solid #111;
+}
+.nav-logo { font-size:18px; font-weight:900; color:#fff; letter-spacing:0.05em; display:flex; align-items:center; gap:6px; }
+.nav-logo b { color:#FF6B6B; }
+.nav-links { display:flex; gap:1.25rem; }
+.nav-links a {
+  font-size:13px; font-weight:700; color:#ccc; text-decoration:none;
+  letter-spacing:0.05em; text-transform:uppercase; transition:color 0.15s;
+}
+.nav-links a:hover { color:#FF6B6B; }
+
+/* HERO */
+.hero {
+  min-height:100vh; padding:100px 4rem 5rem;
+  display:flex; align-items:center; background:#f5f3ee;
+  position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; top:-120px; right:-120px;
+  width:500px; height:500px; border-radius:50%;
+  background:#FFD166; border:4px solid #111; z-index:0;
+}
+.hero::after {
+  content:''; position:absolute; bottom:-80px; left:60px;
+  width:200px; height:200px; border-radius:50%;
+  background:#A8DADC; border:4px solid #111; z-index:0;
+}
+.hero-inner {
+  max-width:1100px; margin:0 auto; width:100%;
+  display:grid; grid-template-columns:1fr auto; gap:3rem;
+  align-items:center; position:relative; z-index:1;
+}
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+  background:#111; color:#FFD166; padding:6px 14px; border-radius:100px;
+  margin-bottom:1.5rem; opacity:0; transform:translateY(16px);
+  animation:pop 0.5s ease forwards 0.1s;
+}
+.hero-name {
+  font-size:clamp(3rem,7vw,6rem); font-weight:900; line-height:1;
+  margin-bottom:0.75rem; opacity:0; transform:translateY(16px);
+  animation:pop 0.5s ease forwards 0.2s;
+}
+.hero-name .highlight {
+  display:inline-block; background:#FF6B6B; color:#fff;
+  padding:0 14px; border-radius:8px; border:3px solid #111;
+  transform:rotate(-1.5deg);
+}
+.nickname {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:clamp(1rem,2vw,1.3rem); font-weight:700; color:#111;
+  background:#FFD166; border:2.5px solid #111; border-radius:100px;
+  padding:6px 18px; margin-bottom:1.25rem;
+  opacity:0; transform:translateY(16px); animation:pop 0.5s ease forwards 0.3s;
+}
+.nickname .bacon-strip {
+  display:inline-block; width:22px; height:14px; border-radius:3px;
+  background:repeating-linear-gradient(115deg,#C9402F 0 3px,#E8907E 3px 6px,#F5D5C8 6px 8px);
+  border:1.5px solid #111;
+}
+.hero-role {
+  font-size:clamp(1rem,1.6vw,1.25rem); font-weight:700; color:#444;
+  margin-bottom:1.25rem; opacity:0; transform:translateY(16px);
+  animation:pop 0.5s ease forwards 0.4s;
+}
+.hero-desc {
+  font-size:15px; color:#555; line-height:1.8; max-width:500px; margin-bottom:2rem;
+  opacity:0; transform:translateY(16px); animation:pop 0.5s ease forwards 0.5s;
+}
+.hero-tags {
+  display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:2.5rem;
+  opacity:0; transform:translateY(16px); animation:pop 0.5s ease forwards 0.6s;
+}
+.htag {
+  padding:7px 16px; border-radius:100px; font-size:12px; font-weight:700;
+  border:2.5px solid #111; letter-spacing:0.02em; cursor:default;
+  transition:transform 0.15s;
+}
+.htag:hover { transform:translateY(-3px) rotate(-2deg); }
+.htag-yellow{background:#FFD166;color:#111;}
+.htag-pink{background:#FF6B6B;color:#fff;}
+.htag-blue{background:#A8DADC;color:#111;}
+.htag-green{background:#95D5B2;color:#111;}
+.htag-purple{background:#C77DFF;color:#fff;}
+.hero-btns {
+  display:flex; gap:1rem; opacity:0; transform:translateY(16px);
+  animation:pop 0.5s ease forwards 0.7s;
+}
+.btn-solid {
+  padding:14px 32px; background:#111; color:#FFD166;
+  border:3px solid #111; border-radius:10px; font-size:15px; font-weight:700;
+  font-family:inherit; cursor:pointer; text-decoration:none;
+  transition:transform 0.15s,box-shadow 0.15s; box-shadow:4px 4px 0 #111;
+}
+.btn-solid:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #111; }
+.btn-outline {
+  padding:14px 28px; background:#fff; color:#111;
+  border:3px solid #111; border-radius:10px; font-size:15px; font-weight:700;
+  font-family:inherit; cursor:pointer; text-decoration:none;
+  transition:transform 0.15s,box-shadow 0.15s; box-shadow:4px 4px 0 #111;
+}
+.btn-outline:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #111; background:#FFD166; }
+
+.hero-avatar { opacity:0; animation:pop 0.5s ease forwards 0.4s; }
+.avatar-blob {
+  width:280px; height:280px; background:#FFD166; border:4px solid #111;
+  border-radius:60% 40% 55% 45%/45% 55% 40% 60%;
+  display:flex; align-items:center; justify-content:center; font-size:90px;
+  position:relative; animation:float 4s ease-in-out infinite;
+}
+.avatar-badge {
+  position:absolute; bottom:-16px; right:-16px; background:#FF6B6B; color:#fff;
+  border:3px solid #111; border-radius:100px; padding:6px 14px;
+  font-size:12px; font-weight:700; white-space:nowrap; box-shadow:3px 3px 0 #111;
+}
+.scroll-hint {
+  position:absolute; bottom:24px; left:50%; transform:translateX(-50%);
+  font-size:12px; font-weight:700; color:#888; letter-spacing:0.1em;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  animation:bounce 2s ease-in-out infinite; z-index:1;
+}
+
+/* STATS */
+.stats-strip {
+  background:#111; color:#fff; padding:1.75rem 4rem;
+  display:flex; justify-content:center; gap:3.5rem; flex-wrap:wrap;
+  border-top:3px solid #111; border-bottom:3px solid #111;
+}
+.stat-item { text-align:center; }
+.stat-big { font-size:2rem; font-weight:900; color:#FFD166; line-height:1; }
+.stat-small { font-size:12px; color:#aaa; margin-top:4px; font-weight:500; }
+
+/* SECTION */
+.section-wrap { max-width:1100px; margin:0 auto; padding:5rem 4rem; }
+.section-header { margin-bottom:2.5rem; }
+.section-kicker {
+  display:inline-block; font-size:11px; font-weight:700; letter-spacing:0.12em;
+  text-transform:uppercase; border:2px solid #111; border-radius:4px;
+  padding:4px 10px; margin-bottom:0.75rem;
+}
+.section-kicker.pink{background:#FF6B6B;color:#fff;}
+.section-kicker.yellow{background:#FFD166;color:#111;}
+.section-kicker.blue{background:#A8DADC;color:#111;}
+.section-title { font-size:clamp(2rem,4vw,3rem); font-weight:900; line-height:1.1; }
+.title-box { display:inline-block; border:3.5px solid #111; padding:2px 12px; border-radius:8px; background:#FFD166; }
+
+/* EXP — collapsible */
+.exp-list { display:flex; flex-direction:column; gap:1.5rem; }
+.exp-card {
+  background:#fff; border:3px solid #111; border-radius:20px;
+  box-shadow:6px 6px 0 #111; transition:transform 0.15s,box-shadow 0.15s;
+  overflow:hidden;
+}
+.exp-card:hover { transform:translate(-3px,-3px); box-shadow:9px 9px 0 #111; }
+.exp-summary {
+  padding:1.75rem 2rem; cursor:pointer;
+  display:flex; justify-content:space-between; align-items:center; gap:1rem;
+  user-select:none;
+}
+.exp-summary-left { flex:1; }
+.exp-co { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#888; margin-bottom:4px; }
+.exp-role { font-size:21px; font-weight:900; margin-bottom:0.75rem; }
+.exp-meta-row { display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
+.exp-date { font-size:12px; font-weight:700; background:#111; color:#FFD166; padding:5px 14px; border-radius:100px; white-space:nowrap; }
+.mini-pills { display:flex; gap:0.4rem; flex-wrap:wrap; }
+.mini-pill { font-size:11px; font-weight:700; padding:3px 10px; border-radius:100px; border:2px solid #111; }
+.toggle-btn {
+  flex-shrink:0; width:44px; height:44px; border-radius:50%;
+  background:#FFD166; border:3px solid #111;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px; font-weight:900; cursor:pointer;
+  transition:transform 0.3s, background 0.2s;
+}
+.exp-card.open .toggle-btn { transform:rotate(45deg); background:#FF6B6B; color:#fff; }
+
+.exp-detail {
+  max-height:0; overflow:hidden;
+  transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+.exp-detail-inner { padding:0 2rem 1.75rem; }
+.exp-bullets { list-style:none; display:flex; flex-direction:column; gap:0.6rem; border-top:2px dashed #ddd; padding-top:1.25rem; }
+.exp-bullets li { font-size:14px; color:#444; line-height:1.75; padding-left:1.5rem; position:relative; }
+.exp-bullets li::before { content:'▸'; position:absolute; left:0; color:#FF6B6B; font-size:12px; top:3px; }
+.exp-bullets li strong { color:#111; font-weight:700; }
+
+.pill-y{background:#FFD166;color:#111;}
+.pill-p{background:#FF6B6B;color:#fff;}
+.pill-b{background:#A8DADC;color:#111;}
+.pill-g{background:#95D5B2;color:#111;}
+
+/* SKILLS */
+.skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.25rem; }
+.skill-card {
+  border:3px solid #111; border-radius:16px; padding:1.5rem;
+  box-shadow:5px 5px 0 #111; transition:transform 0.15s,box-shadow 0.15s; cursor:default;
+}
+.skill-card:hover { transform:translate(-2px,-2px) rotate(-1deg); box-shadow:7px 7px 0 #111; }
+.sk-yellow{background:#FFD166;} .sk-pink{background:#FF6B6B;color:#fff;}
+.sk-blue{background:#A8DADC;} .sk-green{background:#95D5B2;}
+.skill-emoji { font-size:32px; margin-bottom:0.75rem; transition:transform 0.2s; display:inline-block; }
+.skill-card:hover .skill-emoji { transform:scale(1.2) rotate(-8deg); }
+.skill-name { font-size:17px; font-weight:900; margin-bottom:0.5rem; }
+.skill-items { font-size:13px; line-height:1.8; opacity:0.85; }
+
+/* EDU */
+.edu-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+.edu-card { background:#fff; border:3px solid #111; border-radius:16px; padding:1.75rem; box-shadow:5px 5px 0 #111; }
+.edu-school { font-size:20px; font-weight:900; margin-bottom:4px; }
+.edu-major { font-size:13px; font-weight:700; color:#FF6B6B; margin-bottom:4px; }
+.edu-date { font-size:12px; color:#888; margin-bottom:1rem; font-weight:600; }
+.edu-items { list-style:none; }
+.edu-items li { font-size:13px; color:#555; padding:5px 0; border-bottom:1.5px dashed #ddd; }
+.edu-items li:last-child { border-bottom:none; }
+.research-card { background:#C77DFF; border:3px solid #111; border-radius:20px; padding:2rem; box-shadow:6px 6px 0 #111; margin-top:1.25rem; grid-column:1/-1; }
+.research-label { display:inline-block; background:#111; color:#C77DFF; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:4px 10px; border-radius:4px; margin-bottom:0.75rem; }
+.research-title { font-size:18px; font-weight:900; color:#111; margin-bottom:0.75rem; line-height:1.4; }
+.research-desc { font-size:13px; color:#2a0050; line-height:1.7; margin-bottom:1rem; }
+.research-venues { display:flex; flex-direction:column; gap:6px; }
+.rv { font-size:13px; color:#111; font-weight:600; display:flex; gap:8px; align-items:flex-start; }
+.rv::before { content:'★'; color:#FFD166; flex-shrink:0; }
+
+/* WORKS placeholder */
+.works-empty {
+  border:3px dashed #111; border-radius:20px; padding:3rem 2rem;
+  text-align:center; background:#fff;
+}
+.works-empty .we-emoji { font-size:48px; margin-bottom:1rem; }
+.works-empty .we-title { font-size:18px; font-weight:900; margin-bottom:0.5rem; }
+.works-empty .we-desc { font-size:14px; color:#666; line-height:1.7; }
+
+/* CONTACT */
+#contact { background:#111; padding:5rem 4rem; text-align:center; }
+.contact-inner { max-width:600px; margin:0 auto; }
+.contact-kicker { display:inline-block; background:#FFD166; color:#111; border:2px solid #FFD166; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:4px 10px; margin-bottom:1rem; }
+.contact-title { font-size:clamp(2rem,5vw,3.5rem); font-weight:900; color:#fff; margin-bottom:0.75rem; }
+.contact-sub { font-size:15px; color:#aaa; margin-bottom:2rem; }
+.contact-chips { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-bottom:2rem; }
+.chip { display:flex; align-items:center; gap:8px; padding:12px 22px; background:#fff; color:#111; border:2.5px solid #fff; border-radius:12px; font-size:14px; font-weight:700; text-decoration:none; box-shadow:4px 4px 0 rgba(255,255,255,0.25); transition:all 0.15s; }
+.chip:hover { background:#FFD166; transform:translate(-2px,-2px); }
+.avail-badge { display:inline-flex; align-items:center; gap:8px; background:#1a1a1a; border:2px solid #95D5B2; color:#95D5B2; border-radius:100px; padding:8px 20px; font-size:13px; font-weight:700; }
+.avail-dot { width:8px; height:8px; border-radius:50%; background:#95D5B2; animation:blink 1.8s ease-in-out infinite; }
+
+footer { background:#0a0a0a; color:#555; text-align:center; padding:1.5rem; font-size:12px; font-weight:600; letter-spacing:0.04em; }
+
+/* bacon stripe divider */
+.stripe-divider {
+  height:14px;
+  background:repeating-linear-gradient(115deg,#C9402F 0 5px,#E8907E 5px 10px,#F5D5C8 10px 14px);
+  border-top:3px solid #111; border-bottom:3px solid #111;
+}
+
+@keyframes pop { from{opacity:0;transform:translateY(16px) scale(0.97);} to{opacity:1;transform:none;} }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+@keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(6px);} }
+
+.reveal { opacity:0; transform:translateY(28px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+@media(max-width:768px){
+  .hero{padding:90px 1.5rem 3rem;}
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-avatar{display:none;}
+  .section-wrap{padding:3rem 1.5rem;}
+  .stats-strip{gap:1.75rem; padding:1.5rem 2rem;}
+  .edu-grid{grid-template-columns:1fr;}
+  nav{padding:0 1rem;} .nav-links{gap:0.75rem;}
+  .exp-summary{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav>
+  <div class="nav-logo">培根<b>🥓</b></div>
+  <div class="nav-links">
+    <a href="#experience">经历</a>
+    <a href="#works">作品</a>
+    <a href="#skills">技能</a>
+    <a href="#education">教育</a>
+    <a href="#contact">联系</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">✦ 内容运营 · AI工具 · 数据驱动</div>
+      <div class="nickname"><span class="bacon-strip"></span> 江湖人称「培根」</div>
+      <h1 class="hero-name">我是<span class="highlight">赵培涵</span></h1>
+      <p class="hero-role">Content Operator &amp; AI Workflow Builder</p>
+      <p class="hero-desc">
+        擅长用 AI 工具重构内容生产流程。<br>
+        相信好的运营不只是执行，更是把数据、用户与创意连成一条有温度的线。
+      </p>
+      <div class="hero-tags">
+        <span class="htag htag-yellow">内容运营</span>
+        <span class="htag htag-pink">社群运营</span>
+        <span class="htag htag-blue">AI Agent 搭建</span>
+        <span class="htag htag-green">数据分析</span>
+        <span class="htag htag-purple">品牌 IP 孵化</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-solid">联系我 →</a>
+        <a href="#experience" class="btn-outline">查看经历 ↓</a>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <div class="avatar-blob">
+        🥓
+        <div class="avatar-badge">可随时到岗 ✓</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL<span>↓</span></div>
+</div>
+
+<div class="stats-strip">
+  <div class="stat-item"><div class="stat-big" data-target="60" data-suffix="w+">0</div><div class="stat-small">单篇小红书最高阅读</div></div>
+  <div class="stat-item"><div class="stat-big" data-target="1500" data-suffix="+">0</div><div class="stat-small">社群覆盖用户</div></div>
+  <div class="stat-item"><div class="stat-big" data-target="150" data-suffix="+">0</div><div class="stat-small">KOC / 写手管理</div></div>
+  <div class="stat-item"><div class="stat-big" data-target="2000" data-suffix="+">0</div><div class="stat-small">累计引流用户</div></div>
+  <div class="stat-item"><div class="stat-big" data-target="4" data-suffix="场">0</div><div class="stat-small">学术论坛获奖</div></div>
+</div>
+
+<div class="stripe-divider"></div>
+
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-kicker pink">Work Experience</div>
+      <h2 class="section-title">实习经历 <span class="title-box">点击展开</span></h2>
+    </div>
+    <div class="exp-list">
+
+      <div class="exp-card reveal open">
+        <div class="exp-summary">
+          <div class="exp-summary-left">
+            <div class="exp-co">波克科技集团有限公司</div>
+            <div class="exp-role">公益运营实习生</div>
+            <div class="exp-meta-row">
+              <span class="exp-date">2025.10 — 2026.04</span>
+              <div class="mini-pills">
+                <span class="mini-pill pill-y">3篇深度专访</span>
+                <span class="mini-pill pill-p">1500+ 用户</span>
+                <span class="mini-pill pill-b">AI Agent</span>
+              </div>
+            </div>
+          </div>
+          <div class="toggle-btn">+</div>
+        </div>
+        <div class="exp-detail">
+          <div class="exp-detail-inner">
+            <ul class="exp-bullets">
+              <li><strong>内容挖掘与传播：</strong>负责微信公众号选题策划；将上千条活动反馈喂给 GPT 挖掘故事线索，产出 3 篇「Game Master说」深度专访，浏览与转赞创新高，获《公益时报》等媒体转载。</li>
+              <li><strong>AI 写作工作流：</strong>用 Claude 将专访的内容结构、叙事节奏与文风规律蒸馏为可复用 Skill 文档，输入人物 idea 即可驱动「脑暴 → 访谈提纲 → 初稿 → 文风对齐」全流程，已验证于第 4 篇。</li>
+              <li><strong>社群运营：</strong>支持十余个 Game Master 社群，覆盖 1500+ 用户；用 Coze 搭建社群 AI Agent，实现申请人智能筛选、FAQ 自动回复；推动「拉新→留存→反馈→裂变」路径优化。</li>
+              <li><strong>降本增效：</strong>基于 OpenClaw 批量制作活动拓展包，内容生产周期从 6 个月压缩至 10 分钟完成 80%；AI 撰写年度可持续发展报告，外包成本从 1w+ 降至近零。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="exp-summary">
+          <div class="exp-summary-left">
+            <div class="exp-co">流利说英语</div>
+            <div class="exp-role">内容运营实习生</div>
+            <div class="exp-meta-row">
+              <span class="exp-date">2024.10 — 2025.01</span>
+              <div class="mini-pills">
+                <span class="mini-pill pill-p">60w+ 阅读</span>
+                <span class="mini-pill pill-y">2000+ 引流</span>
+                <span class="mini-pill pill-b">KOC 150+</span>
+              </div>
+            </div>
+          </div>
+          <div class="toggle-btn">+</div>
+        </div>
+        <div class="exp-detail">
+          <div class="exp-detail-inner">
+            <ul class="exp-bullets">
+              <li><strong>小红书矩阵运营：</strong>接手 3 个垂类账号，发布引流笔记 100+ 篇，单篇最高阅读 <strong>60w+</strong>，累计引流用户超 2000 人。</li>
+              <li><strong>数据提升：</strong>开口率 15%（↑5%）；加私率 40%（↑15%）；首购率 8%（↑3%）。自主撰写 0-1 起号 SOP，一周内快速起号（单篇 30w+，转赞评 1w+）。</li>
+              <li><strong>KOC 管理：</strong>撰写 KOC 管理 SOP 与写手审核 SOP，管理 150+ 人，打通内容策划——渠道分发——用户运营——前端转化全流程。</li>
+              <li><strong>品牌 IP 孵化：</strong>支持「John 要说英语」从 0 到 1 孵化；首个视频点赞破千，第二个破万。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="exp-summary">
+          <div class="exp-summary-left">
+            <div class="exp-co">上海市徐汇区凌云街道（龙州片区）</div>
+            <div class="exp-role">学生兼职团支部副书记</div>
+            <div class="exp-meta-row">
+              <span class="exp-date">2023.05 — 2023.10</span>
+              <div class="mini-pills">
+                <span class="mini-pill pill-b">12场活动</span>
+                <span class="mini-pill pill-y">参与率↑40%</span>
+              </div>
+            </div>
+          </div>
+          <div class="toggle-btn">+</div>
+        </div>
+        <div class="exp-detail">
+          <div class="exp-detail-inner">
+            <ul class="exp-bullets">
+              <li>问卷（150份）+ 深度访谈（20人）提炼老年群体核心需求，针对性设计活动主题。</li>
+              <li>主导策划落地社区活动 12 场，活动参与率提升 <strong>40%</strong>，满意度 <strong>92%</strong>。</li>
+              <li>联动社区卫生中心、公益组织等外部单位，搭建社区微信群覆盖 200+ 居民。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<section id="works">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-kicker yellow">Portfolio</div>
+      <h2 class="section-title">作品 <span class="title-box">集</span></h2>
+    </div>
+    <div class="works-empty reveal">
+      <div class="we-emoji">🚧</div>
+      <div class="we-title">爆款笔记 & SOP 即将上线</div>
+      <div class="we-desc">这里会放小红书爆款笔记、起号 SOP、KOC 管理 SOP 等作品卡片，<br>支持封面图 + 数据 + 一键跳转原文。</div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-kicker blue">Skills & Tools</div>
+      <h2 class="section-title">技能 <span class="title-box">工具箱</span></h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card sk-yellow reveal"><div class="skill-emoji">🤖</div><div class="skill-name">AI 工具</div><div class="skill-items">ChatGPT · Claude · Coze<br>AI Agent 搭建 · Prompt 工程<br>OpenClaw · AI 辅助生产</div></div>
+      <div class="skill-card sk-pink reveal"><div class="skill-emoji">📊</div><div class="skill-name">数据分析</div><div class="skill-items">Python · STATA · SPSS<br>SQL · Excel 数据透视表<br>数据可视化 · 实证论文</div></div>
+      <div class="skill-card sk-blue reveal"><div class="skill-emoji">✍️</div><div class="skill-name">内容创作</div><div class="skill-items">人物深度专访 · 爆款笔记<br>品牌文案 · SOP 标准化<br>可画 · 创客贴</div></div>
+      <div class="skill-card sk-green reveal"><div class="skill-emoji">📱</div><div class="skill-name">运营能力</div><div class="skill-items">小红书矩阵 · 社群运营<br>用户增长 · KOC 管理<br>问卷调研 · 用户访谈</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<section id="education">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <div class="section-kicker pink">Education & Research</div>
+      <h2 class="section-title">教育 <span class="title-box">与学术</span></h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-school">华东师范大学</div>
+        <div class="edu-major">社会工作专业 · 硕士在读</div>
+        <div class="edu-date">2025.09 — 2027.07</div>
+        <ul class="edu-items"><li>年级长</li><li>院实践部干事</li></ul>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-school">华东理工大学</div>
+        <div class="edu-major">公共事业管理 · 本科</div>
+        <div class="edu-date">2021.09 — 2025.07</div>
+        <ul class="edu-items">
+          <li>专业前 10%，均分 89.85，GPA 3.80/4</li>
+          <li>CET-6（523）</li>
+          <li>金龙鱼奖学金 · 校特等奖学金</li>
+          <li>校优秀毕业生 · 校优秀毕业论文</li>
+          <li>学习委员</li>
+        </ul>
+      </div>
+      <div class="research-card reveal">
+        <div class="research-label">Academic Paper</div>
+        <div class="research-title">《危机情境社会动员中政策叙事的作用：一项调查实验》</div>
+        <div class="research-desc">独立作者 · 面向 1000 名被试，设置 4 实验组 + 1 对照组，用 STATA 实证分析政策叙事、个体规范与亲社会行为意愿的作用机制。</div>
+        <div class="research-venues">
+          <div class="rv">2024 中国应急管理学科发展论坛（上海交通大学承办）— 会场唯一本科生独作</div>
+          <div class="rv">清华大学社会科学学院博士生学术论坛</div>
+          <div class="rv">共计 4 场论坛汇报并获奖</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-kicker reveal">✉ Get In Touch</div>
+    <h2 class="contact-title reveal">一起聊聊？🥓</h2>
+    <p class="contact-sub reveal">可随时到岗，一周 4 个工作日，6 月中旬后可 5 个工作日</p>
+    <div class="contact-chips reveal">
+      <a href="mailto:bacon_zhao@163.com" class="chip">✉ bacon_zhao@163.com</a>
+      <a href="tel:13777433852" class="chip">📞 137-7743-3852</a>
+      <span class="chip">📍 上海闵行 / 杭州拱墅</span>
+    </div>
+    <div class="reveal"><span class="avail-badge"><span class="avail-dot"></span>积极求职中 · 可随时到岗</span></div>
+  </div>
+</section>
+
+<footer>© 2026 赵培涵「培根」&nbsp;·&nbsp; 用 Claude 辅助生产，用数据说话，用故事打动人 ✦</footer>
+
+<script>
+// scroll progress
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// reveal on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// collapsible experience cards
+function setCardHeight(card) {
+  const detail = card.querySelector('.exp-detail');
+  if (card.classList.contains('open')) {
+    detail.style.maxHeight = detail.scrollHeight + 'px';
+  } else {
+    detail.style.maxHeight = '0px';
+  }
+}
+document.querySelectorAll('.exp-card').forEach(card => {
+  const summary = card.querySelector('.exp-summary');
+  summary.addEventListener('click', () => {
+    card.classList.toggle('open');
+    setCardHeight(card);
+  });
+  if (card.classList.contains('open')) setTimeout(() => setCardHeight(card), 100);
+});
+
+// count-up stats
+function animateCount(el) {
+  const target = +el.dataset.target;
+  const suffix = el.dataset.suffix || '';
+  const dur = 1200; const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(target * eased) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const statObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCount(e.target); statObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-big').forEach(el => statObs.observe(el));
+</script>
+</body>
+</html>
