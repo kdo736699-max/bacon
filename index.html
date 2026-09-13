@@ -17,19 +17,19 @@
 <body data-view="gate">
   <div class="paper-grain" aria-hidden="true"></div>
   <section class="entrance" id="entrance" aria-label="门厅">
-    <header class="entrance-top"><span>赵培涵 <i>培根</i></span><span class="latin">A Room of One’s Own</span></header>
-    <div class="entrance-copy"><p class="eyebrow">你好，欢迎来坐坐。</p><h1>一间属于<br>自己的<span>房间</span></h1><p class="entrance-note">对人的生活有好奇，<br>对把事情做好有耐心。</p></div>
+    <header class="entrance-top"><span>赵培涵 <i>培根 <span class="latin">Bacon</span></i></span></header>
+    <div class="entrance-copy"><p class="eyebrow">你好，欢迎来坐坐。</p><h1>一间属于<br>自己的<span>房间</span></h1><p class="entrance-note">对人的生活有好奇，<br>把发现变成行动。</p></div>
     <button class="entrance-door" id="enter" aria-label="推门进入走廊">
       <span class="door-recess"></span><span class="entrance-leaf"><svg viewBox="0 0 120 206" aria-hidden="true"><use href="assets/doors.svg#d-gate"/></svg><span class="gate-name">培根的房间</span><span class="gate-knob"></span></span>
       <span class="enter-label">推门 <span>↗</span></span>
     </button>
-    <footer class="entrance-footer"><span>作品、研究，和生活的另一面。</span><span class="latin">Make yourself at home.</span></footer>
+    <footer class="entrance-footer"><span>作品、研究，和生活的另一面。</span><span class="latin">Welcome.</span></footer>
   </section>
 
   <main id="house" inert aria-label="走廊">
     <div class="corridor-stage" id="stage">
       <div class="ground" aria-hidden="true"><div class="floor-lines"></div><div class="horizon-light"></div></div>
-      <div class="world" id="world"><div class="wall wall-left" id="wall-left"><div class="wall-top"></div><div class="wall-base"></div></div><div class="wall wall-right" id="wall-right"><div class="wall-top"></div><div class="wall-base"></div></div><div class="end-wall"><button class="end-window" data-room="window" aria-label="打开飘窗"><svg viewBox="0 0 120 176" aria-hidden="true"><use href="assets/doors.svg#d-window"/></svg></button></div></div>
+      <div class="world" id="world"><div class="wall wall-left" id="wall-left"><div class="wall-top"></div><div class="wall-base"></div></div><div class="wall wall-right" id="wall-right"><div class="wall-top"></div><div class="wall-base"></div></div><div class="end-wall"><div class="wall-top"></div><div class="wall-base"></div><button class="end-window" data-room="window" aria-label="打开飘窗"><svg viewBox="0 0 120 176" aria-hidden="true"><use href="assets/doors.svg#d-window"/></svg></button></div></div>
       <div class="door-labels" id="door-labels"></div>
       <div class="corridor-address"><span class="latin">You are here.</span><span id="nearby">客厅</span></div>
     </div>
@@ -40,12 +40,12 @@
   </main>
 
   <section class="room-view" id="room-view" hidden aria-label="房间内容">
-    <header class="room-header"><button id="back-corridor">← 走廊</button><span id="room-current"></span><div><button id="previous-room" aria-label="上一间房">←</button><button id="next-room" aria-label="下一间房">→</button></div></header>
+    <header class="room-header"><button id="back-corridor">← 走廊</button><span id="room-current" class="sr-only"></span><nav id="room-links" aria-label="切换房间"></nav><div><button id="previous-room" aria-label="上一间房">←</button><button id="next-room" aria-label="下一间房">→</button></div></header>
     <div id="room-content"></div>
   </section>
 
-  <div class="pet-wrap" id="pet-wrap" hidden><div class="pet-speech" id="pet-speech" hidden><button data-pet-go="archive">带我看作品</button><button data-pet-go="window">去窗边坐坐</button><button id="hide-pet">让小蓝休息</button></div><button class="pet" id="pet" aria-label="小蓝，点击让她带路"><span class="pet-sprite" id="pet-sprite"></span></button><span class="pet-shadow" aria-hidden="true"></span></div>
-  <button id="restore-pet" hidden>小蓝</button>
+  <div class="pet-wrap" id="pet-wrap" hidden><div class="pet-speech" id="pet-speech" hidden><button data-dossier="guide:home">房间阅读指南</button><button data-pet-go="archive">带我看作品</button><button data-pet-action="jumping">跳一下</button><button data-pet-action="waving">打个招呼</button><button id="hide-pet">让培根休息</button></div><button class="pet" id="pet" aria-label="培根，点击让她带路"><span class="pet-sprite" id="pet-sprite"></span></button><span class="pet-shadow" aria-hidden="true"></span></div>
+  <button id="restore-pet" hidden>培根</button>
   <dialog id="image-viewer" aria-label="查看作品原图"><header><span id="image-title"></span><button id="close-image" aria-label="关闭图片">✕</button></header><div class="image-scroll"><img id="full-image" alt=""></div></dialog>
   <dialog id="dossier-viewer" aria-labelledby="dossier-title"><header class="dossier-header"><div><span id="dossier-meta"></span><h1 id="dossier-title"></h1></div><button id="close-dossier" aria-label="收起档案">✕</button></header><div id="dossier-body" class="dossier-body"></div></dialog>
   <div id="toast" role="status" aria-live="polite"></div>
