@@ -38,3 +38,4 @@ body[data-theme=night] .job-folder,body[data-theme=night] .content-work{backgrou
 .reduced-motion .flame-tongue,.reduced-motion .hearth-spark,.reduced-motion .ember-bed{animation:none}.reduced-motion .hearth-spark{opacity:0}
 @media(prefers-reduced-motion:reduce){.flame-tongue,.hearth-spark,.ember-bed{animation:none}.hearth-spark{opacity:0}}
 @media(max-width:650px){.hearth-art .bacon-hearth{max-height:180px}.budget-results>div{gap:16px}.budget-results b{font-size:1.8rem}}
+.social-note{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);max-width:440px}.social-note a{display:inline-block;font-size:.875rem;color:var(--green);text-decoration:underline;text-underline-offset:5px}.social-note p{font-size:.8125rem!important;line-height:1.8!important;color:var(--muted);margin:9px 0 0!important}.social-note a:hover{color:var(--rust)}
